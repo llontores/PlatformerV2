@@ -1,11 +1,11 @@
-using System.Collections;
+    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerInput : MonoBehaviour
 {
-    public event UnityAction<float> HorizontalInputChanged;
+    public event UnityAction<float,bool> HorizontalInputChanged;
     public event UnityAction JumpButtonPressed;
     public event UnityAction AttackButtonPressed;
     public event UnityAction<bool> JumpingStateChanged;
@@ -28,26 +28,27 @@ public class PlayerInput : MonoBehaviour
         //    HorizontalInputChanged?.Invoke(_horizontalInput);
         //}
 
-        //if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
-        //{
-        //    _isGrounded = false;
-        //    JumpButtonPressed?.Invoke();
-        //    JumpingStateChanged(_isGrounded);
-        //}
-
-        //if (Input.GetMouseButtonDown(0))
-        //    AttackButtonPressed?.Invoke();
-
-
         if (Input.GetKeyDown(KeyCode.D))
-        {
-            print("кнопка вправо нажата");
-        }
+            HorizontalInputChanged?.Invoke(1, true);
+
+        if (Input.GetKeyDown(KeyCode.A))
+            HorizontalInputChanged?.Invoke(-1, true);
 
         if (Input.GetKeyUp(KeyCode.D))
+            HorizontalInputChanged?.Invoke(1, false);
+
+        if (Input.GetKeyUp(KeyCode.A))
+            HorizontalInputChanged?.Invoke(-1, false);
+
+        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
-            print("кнопка вправо отжата");
+            _isGrounded = false;
+            JumpButtonPressed?.Invoke();
+            JumpingStateChanged(_isGrounded);
         }
+
+        if (Input.GetMouseButtonDown(0))
+            AttackButtonPressed?.Invoke();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -58,6 +59,5 @@ public class PlayerInput : MonoBehaviour
             JumpingStateChanged(_isGrounded);
         }
     }
-
 
 }
