@@ -1,11 +1,11 @@
-    using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class PlayerInput : MonoBehaviour
 {
-    public event UnityAction<float,bool> HorizontalInputChanged;
+    public event UnityAction<float, bool> HorizontalInputChanged;
     public event UnityAction JumpButtonPressed;
     public event UnityAction AttackButtonPressed;
     public event UnityAction<bool> JumpingStateChanged;
@@ -44,7 +44,7 @@ public class PlayerInput : MonoBehaviour
         {
             _isGrounded = false;
             JumpButtonPressed?.Invoke();
-            JumpingStateChanged(_isGrounded);
+            JumpingStateChanged?.Invoke(_isGrounded);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -56,8 +56,7 @@ public class PlayerInput : MonoBehaviour
         if (collision.collider.TryGetComponent(out Ground ground))
         {
             _isGrounded = true;
-            JumpingStateChanged(_isGrounded);
+            JumpingStateChanged?.Invoke(_isGrounded);
         }
     }
-
 }

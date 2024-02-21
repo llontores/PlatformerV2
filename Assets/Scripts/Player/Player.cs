@@ -16,11 +16,12 @@ public class Player : AliveObject
 
     [SerializeField] private LayerMask _enemiesMask;
     [SerializeField] private Transform _attackPoint;
+    [SerializeField] private float _attackRange;
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
-    [SerializeField] private float _attackRange;
     [SerializeField] private int _damage;
 
+    public event UnityAction TakingHit;
     private Rigidbody2D _rigidbody2D;
     private Animator _animator;
     private bool _isGrounded;

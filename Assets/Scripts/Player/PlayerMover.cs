@@ -11,14 +11,16 @@ public class PlayerMover : MonoBehaviour
     private PlayerInput _input;
     private Coroutine _moveJob;
 
-    private void Start()
+    private void Awake()
     {
         _input = GetComponent<PlayerInput>();
+        _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
     private void OnEnable()
     {
         _input.HorizontalInputChanged += MovingCoroutineWork;
+        _input.JumpButtonPressed += Jump;
     }
 
     private void OnDisable()
@@ -46,20 +48,26 @@ public class PlayerMover : MonoBehaviour
     private void MovingCoroutineWork(float sign, bool isWorking)
     {
         if (isWorking)
+        {
+            print("я начинаю хадить");
             StartMovingCoroutineWork(sign);
+        }
         else
             StopMovingCoroutineWork(sign);
     }
 
     private void StartMovingCoroutineWork(float sign)
     {
-        if (_moveJob == null)
-            _moveJob = StartCoroutine(Move(sign));
+        _moveJob = StartCoroutine(Move(sign));
     }
 
     private void StopMovingCoroutineWork(float sign)
     {
-        if (_moveJob != null)
-            StopCoroutine(_moveJob);
+        StopCoroutine(_moveJob);
+    }
+
+    private void Jump()
+    {
+        _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
     }
 }
