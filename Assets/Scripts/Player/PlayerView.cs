@@ -10,7 +10,7 @@ public class PlayerView : MonoBehaviour
     private const string JumpingAnimation = "IsJumping";
 
     [SerializeField] private Player _player;
-    [SerializeField] private PlayerInput _input;
+    [SerializeField] private PlayerControl _control;
     [SerializeField] private PlayerCollisionHandler _collisionHandler;
 
     private Animator _animator;
@@ -22,27 +22,28 @@ public class PlayerView : MonoBehaviour
 
     private void OnEnable()
     {
-        _input.HorizontalInputChanged += ControlWalkingAnimation;
-        _input.JumpButtonPressed += StartJumpingAnimation;
-        _input.AttackButtonPressed += TriggerAttackAnimation;
-        _player.TakingHit += TriggerTakingHitAnimation;
+        _control.HorizontalInputChanged += ControlWalkingAnimation;
+        _control.JumpButtonPressed += StartJumpingAnimation;
+        _control.AttackButtonPressed += TriggerAttackAnimation;
+        _player.HealthChanged += TriggerTakingHitAnimation;
         _collisionHandler.TouchGround += StopJumpingAnimation;
     }
 
     private void OnDisable()
     {
-        _input.HorizontalInputChanged -= ControlWalkingAnimation;
-        _input.JumpButtonPressed -= StartJumpingAnimation;
-        _input.AttackButtonPressed -= TriggerAttackAnimation;
-        _player.TakingHit -= TriggerTakingHitAnimation;
+        _control.HorizontalInputChanged -= ControlWalkingAnimation;
+        _control.JumpButtonPressed -= StartJumpingAnimation;
+        _control.AttackButtonPressed -= TriggerAttackAnimation;
+        _player.HealthChanged -= TriggerTakingHitAnimation;
         _collisionHandler.TouchGround -= StopJumpingAnimation;
     }
-    private void ControlWalkingAnimation(float sign, bool isWalking)
+    private void ControlWalkingAnimation(float horizontalInput)
     {
-        if (isWalking)
+        if (Mathf.Abs(horizontalInput) > 0.5)
             _animator.SetBool(WalkingAnimation, true);
         else
             _animator.SetBool(WalkingAnimation, false);
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x) * Mathf.Sign(horizontalInput), transform.localScale.y, transform.localScale.z);
     }
 
     private void StartJumpingAnimation()
@@ -60,8 +61,8 @@ public class PlayerView : MonoBehaviour
         _animator.SetTrigger(AttackingAnimation);
     }
 
-    private void TriggerTakingHitAnimation()
+    private void TriggerTakingHitAnimation(float health, float previousValue, float maxhealth)
     {
-        _animator.SetTrigger(TakeHitAnimation);
+         _animator.SetTrigger(TakeHitAnimation);
     }
 }

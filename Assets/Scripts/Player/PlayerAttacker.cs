@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class PlayerAttacker : MonoBehaviour
 {
+    [SerializeField] private PlayerControl _control;
     [SerializeField] private LayerMask _enemiesMask;
     [SerializeField] private Transform _attackPoint;
     [SerializeField] private float _attackRange;
     [SerializeField] private int _damage;
-      
+
+    private void OnEnable()
+    {
+        _control.AttackButtonPressed += Attack;
+    }
+
+    private void OnDisable()
+    {
+        _control.AttackButtonPressed -= Attack;
+    }
+
     private void Attack()
     {
 
@@ -16,7 +27,7 @@ public class PlayerAttacker : MonoBehaviour
 
         foreach (Collider2D enemy in enemies)
         {
-            enemy.GetComponent<Enemy>().TakeDamage(_damage);
+            enemy.GetComponent<Enemy>().ApplyDamage(_damage);
         }
     }
 

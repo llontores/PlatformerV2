@@ -8,26 +8,10 @@ public class PlayerInput : MonoBehaviour
     public event UnityAction<float, bool> HorizontalInputChanged;
     public event UnityAction JumpButtonPressed;
     public event UnityAction AttackButtonPressed;
-    public event UnityAction<bool> JumpingStateChanged;
-
-    private float _horizontalInput;
-    private bool _isGrounded;
-
-    private void Start()
-    {
-        _isGrounded = true;
-    }
+    public event UnityAction JumpingStateChanged;
 
     private void Update()
     {
-        //_horizontalInput = Input.GetAxis("Horizontal");
-
-        //if (Mathf.Abs(_horizontalInput) > 0.01)
-        //{
-        //    float sign = Mathf.Sign(_horizontalInput);
-        //    HorizontalInputChanged?.Invoke(_horizontalInput);
-        //}
-
         if (Input.GetKeyDown(KeyCode.D))
             HorizontalInputChanged?.Invoke(1, true);
 
@@ -40,23 +24,15 @@ public class PlayerInput : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.A))
             HorizontalInputChanged?.Invoke(-1, false);
 
-        if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            _isGrounded = false;
             JumpButtonPressed?.Invoke();
-            JumpingStateChanged?.Invoke(_isGrounded);
+            JumpingStateChanged?.Invoke();
         }
 
         if (Input.GetMouseButtonDown(0))
             AttackButtonPressed?.Invoke();
+
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.TryGetComponent(out Ground ground))
-        {
-            _isGrounded = true;
-            JumpingStateChanged?.Invoke(_isGrounded);
-        }
-    }
 }

@@ -22,7 +22,6 @@ public class AliveObject : MonoBehaviour
         float previousHealthAmount = _health;
         _health = Mathf.Clamp(_health - damage, 0, _maxHealth);
         HealthChanged?.Invoke(_health, previousHealthAmount, _maxHealth);
-
     }
     public void ApplyAidKit(int healValue)
     {

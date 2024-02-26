@@ -6,14 +6,15 @@ public class PlayerMover : MonoBehaviour
 {
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
+    [SerializeField] private Player _player;
+    [SerializeField] private PlayerInput _input;
 
     private Rigidbody2D _rigidbody2D;
-    private PlayerInput _input;
     private Coroutine _moveJob;
 
-    private void Awake()
+    private void Start()
     {
-        _input = GetComponent<PlayerInput>();
+        //_input = GetComponent<PlayerInput>();
         _rigidbody2D = GetComponent<Rigidbody2D>();
     }
 
@@ -26,12 +27,7 @@ public class PlayerMover : MonoBehaviour
     private void OnDisable()
     {
         _input.HorizontalInputChanged -= MovingCoroutineWork;
-    }
-
-    private void Jump(bool isGrounded)
-    {
-        if (isGrounded)
-            _rigidbody2D.AddForce(_jumpForce * Vector2.up, ForceMode2D.Impulse);
+        _input.JumpButtonPressed -= Jump;
 
     }
 
@@ -49,7 +45,6 @@ public class PlayerMover : MonoBehaviour
     {
         if (isWorking)
         {
-            print("я начинаю хадить");
             StartMovingCoroutineWork(sign);
         }
         else
@@ -68,6 +63,10 @@ public class PlayerMover : MonoBehaviour
 
     private void Jump()
     {
-        _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        if (_player.IsGrounded)
+        {
+            print("юхууу чача-чача");
+            _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+        }
     }
 }

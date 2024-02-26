@@ -12,24 +12,17 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Slider _slider;
 
     private Coroutine _changeHPJob;
-    private RectTransform _rectTransform;
 
     private void OnEnable()
     {
         _aliveObject.HealthChanged += ChangeHPWork;
-        //_aliveObject.DirectionChanged += ChangeDirection;
+
     }
 
     private void OnDisable()
     {
         _aliveObject.HealthChanged -= ChangeHPWork;
     }
-
-    private void Start()
-    {
-        _rectTransform = GetComponent<RectTransform>();
-    }
-
     private IEnumerator ChangeHP(float target, float previousValue, float maxValue)
     {
         float elapsedTime = 0;
@@ -56,8 +49,4 @@ public class HealthBar : MonoBehaviour
         _changeHPJob = StartCoroutine(ChangeHP(target, previousValue, maxValue));
     }
 
-    private void ChangeDirection(float sign)
-    {
-        _rectTransform.localScale = new Vector3(Mathf.Abs(_rectTransform.localScale.x) * sign, _rectTransform.localScale.y, _rectTransform.localScale.z);
-    }
 }

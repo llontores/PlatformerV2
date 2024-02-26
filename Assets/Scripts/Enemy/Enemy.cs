@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Enemy : MonoBehaviour
+public class Enemy : AliveObject
 {
-    [SerializeField] private int _health;
-
     [SerializeField] private Player _target;
     public Player Target => _target;
 
-    public void TakeDamage(int damage)
+    public override void ApplyDamage(int damage)
     {
-        _health -= damage;
-
+        base.ApplyDamage(damage);
         if (_health <= 0)
         {
             Destroy(gameObject);
