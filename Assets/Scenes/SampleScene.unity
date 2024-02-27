@@ -2635,6 +2635,7 @@ GameObject:
   - component: {fileID: 1263227942}
   - component: {fileID: 1263227944}
   - component: {fileID: 1263227945}
+  - component: {fileID: 1263227946}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2765,6 +2766,25 @@ MonoBehaviour:
   _speed: 5
   _jumpForce: 7
   _player: {fileID: 1263227943}
+--- !u!114 &1263227946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1263227937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 074336f610f4fd1498f0da9e144f4477, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _control: {fileID: 1263227945}
+  _enemiesMask:
+    serializedVersion: 2
+    m_Bits: 8
+  _vampirismRange: 5
+  _damage: 1
+  _delay: 0.5
 --- !u!1 &1283860702
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using UnityEngine.Events;
 public class AliveObject : MonoBehaviour
 {
     [SerializeField] protected float _health;
+    public float Health => _health;
 
     public event UnityAction<float, float, float> HealthChanged;
     protected event UnityAction<float> DirectionChanged;
@@ -23,7 +24,7 @@ public class AliveObject : MonoBehaviour
         _health = Mathf.Clamp(_health - damage, 0, _maxHealth);
         HealthChanged?.Invoke(_health, previousHealthAmount, _maxHealth);
     }
-    public void ApplyAidKit(int healValue)
+    public void RecoverHealth(int healValue)
     {
         float previousHealthAmount = _health;
         _health = Mathf.Clamp(_health + healValue, 0, _maxHealth);

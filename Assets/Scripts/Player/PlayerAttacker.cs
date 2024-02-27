@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttacker : MonoBehaviour
+public class PlayerAttacker : MonoBehaviour 
 {
     [SerializeField] private PlayerControl _control;
     [SerializeField] private LayerMask _enemiesMask;

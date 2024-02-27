@@ -12,6 +12,7 @@ public class PlayerControl : MonoBehaviour
     public event UnityAction<float> HorizontalInputChanged;
     public event UnityAction JumpButtonPressed;
     public event UnityAction AttackButtonPressed;
+    public event UnityAction VampirismButtonPressed;
 
     private Rigidbody2D _rigidbody2D;
 
@@ -39,9 +40,12 @@ public class PlayerControl : MonoBehaviour
             _rigidbody2D.AddForce(_jumpForce * Vector2.up, ForceMode2D.Impulse);
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
+        if (Input.GetMouseButtonDown(0)) 
             AttackButtonPressed?.Invoke();
-        }
+        
+        if (Input.GetKeyDown(KeyCode.F))
+            VampirismButtonPressed?.Invoke();
+
+
     }
 }

@@ -16,14 +16,14 @@ public class Player : AliveObject
     public bool IsGrounded => _isGrounded;
     private void OnEnable()
     {
-        HealPotion.Collected += ApplyAidKit;
+        HealPotion.Collected += RecoverHealth;
         _collisionHandler.TouchGround += Land;
         _control.JumpButtonPressed += Jump;
     }
 
     private void OnDisable()
     {
-        HealPotion.Collected -= ApplyAidKit;
+        HealPotion.Collected -= RecoverHealth;
         _collisionHandler.TouchGround -= Land;
         _control.JumpButtonPressed -= Jump;
     }
