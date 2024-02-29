@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Player))]
 public class PlayerVampirismUser : MonoBehaviour
 {
     [SerializeField] private PlayerControl _control;
@@ -11,6 +12,7 @@ public class PlayerVampirismUser : MonoBehaviour
     [SerializeField] private float _delay;
 
     private Player _player;
+    private Coroutine _vampirismJob;
 
     private void Start()
     {
@@ -26,12 +28,15 @@ public class PlayerVampirismUser : MonoBehaviour
     {
         _control.VampirismButtonPressed -= DetectEnemies;
     }
+
     private void DetectEnemies()
     {
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, _vampirismRange, _enemiesMask);
 
-        if (enemies != null)
-            StartCoroutine(VampirismProcess(enemies[0].GetComponent<Enemy>()));
+        if (_vampirismJob != null) 
+            StopCoroutine(_vampirismJob);
+        
+        _vampirismJob = StartCoroutine(VampirismProcess(enemies[0].GetComponent<Enemy>()));
     }
 
     private IEnumerator VampirismProcess(Enemy enemy)
