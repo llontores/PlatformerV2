@@ -12,8 +12,9 @@ public class Player : AliveObject
     [SerializeField] private PlayerCollisionHandler _collisionHandler;
     [SerializeField] private PlayerControl _control;
 
-    private bool _isGrounded;
+    private bool _isGrounded = true;
     public bool IsGrounded => _isGrounded;
+
     private void OnEnable()
     {
         HealPotion.Collected += RecoverHealth;
@@ -26,11 +27,6 @@ public class Player : AliveObject
         HealPotion.Collected -= RecoverHealth;
         _collisionHandler.TouchGround -= Land;
         _control.JumpButtonPressed -= Jump;
-    }
-
-    private void Start()
-    {
-        _isGrounded = true;
     }
 
     private void Land()

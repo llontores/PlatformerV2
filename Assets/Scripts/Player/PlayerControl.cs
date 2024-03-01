@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class PlayerControl : MonoBehaviour
 {
+    private const string HorizontalAxis = "Horizontal";
+
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpForce;
     [SerializeField] private Player _player;
@@ -25,7 +28,7 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        _horizontalInput = Input.GetAxis("Horizontal");
+        _horizontalInput = Input.GetAxis(HorizontalAxis);
 
         if (Mathf.Abs(_horizontalInput) > 0.01)
         {
